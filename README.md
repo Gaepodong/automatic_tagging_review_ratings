@@ -1,8 +1,12 @@
 # automatic_tagging_review_ratings
 
-- [대회관련 팀노션](https://www.notion.so/00d4ec17dfbf49358cac0f20d149369a)
+[대회관련 팀노션](https://www.notion.so/00d4ec17dfbf49358cac0f20d149369a)
 
-참고자료
+## 개요
+
+***감정분석 기법을 이용한 영화 리뷰평점 자동 태깅 시스템***
+
+## 참고자료
 - [네이버 영화평 데이터셋](https://github.com/e9t/nsmc)
 - [국어정보처리 경진대회 특강 관련 자료](https://cafe.naver.com/nlpk/319)
 - [TextRank를 이용한 키워드 추출과 핵심문장 추출](https://lovit.github.io/nlp/2019/04/30/textrank/)
