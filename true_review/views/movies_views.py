@@ -15,9 +15,3 @@ def movie(movie_id):
 def _list():
     movie_list = Movies.query.order_by(Movies.create_date.desc())
     return render_template('movies/movie_list.html', movie_list=movie_list)
-
-
-@bp.route('/test/')
-def test():
-    movie_list = Movies.query.order_by(Movies.create_date.desc())
-    return render_template('movies/index.html', movie_list=movie_list)

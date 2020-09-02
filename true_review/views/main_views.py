@@ -13,4 +13,4 @@ bp = Blueprint('main', __name__, url_prefix='/')
 
 @bp.route('/')
 def index():
-    return redirect(url_for('movies.test'))
+    return redirect(url_for('movies._list'))
