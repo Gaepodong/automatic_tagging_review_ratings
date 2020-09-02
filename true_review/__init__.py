@@ -22,8 +22,9 @@ def create_app():
     from . import models
 
     # blueprint
-    from .views import main_views, movies_views
+    from .views import main_views, movies_views, comment_views
     app.register_blueprint(main_views.bp)
     app.register_blueprint(movies_views.bp)
+    app.register_blueprint(comment_views.bp)
 
     return app

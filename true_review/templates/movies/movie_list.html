@@ -2,9 +2,8 @@
 <p>영화를 확인합니다.</p>
 <ul>
     {% for movie in movie_list %}
-    <li><a href="/movie/{{ movie.id }}/">{{ movie.title }}</a></li>
+    <li><a href="/movies/movie/{{ movie.id }}/">{{ movie.title }}</a></li>
     {% endfor %}
-</ul>
-{% else %}
-<p>영화가 없습니다.</p>
-{% endif %}
+    {% else %}
+    <p>영화가 없습니다.</p>
+    {% endif %}
