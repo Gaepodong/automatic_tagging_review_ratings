@@ -32,7 +32,7 @@
     }
   </style>
   <!-- Custom styles for this template -->
-  <link href="{{ url_for('static', filename='album.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='index.css') }}" rel="stylesheet">
 </head>
 
 <body>
@@ -93,26 +93,46 @@
     <div class="album py-5 bg-light">
       <div class="container">
 
+        <!-- {% if movie_list %}
+<p>영화를 확인합니다.</p>
+<ul>
+    {% for movie in movie_list %}
+    <li><a href="/movies/movie/{{ movie.id }}/">{{ movie.title }}</a></li>
+    {% endfor %}
+    {% else %}
+    <p>영화가 없습니다.</p>
+    {% endif %} -->
+
         <!-- TODO: 추후 템플릿화하여 DB에 영화가 추가되면 자동으로 카드가 늘어나도록 처리 요망. -->
+        {% if movie_list %}
         <div class="row">
+          {% for movie in movie_list %}
           <div class="col-md-4">
-            <div class="card mb-4 shadow-sm">
-              <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg"
-                preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
-                <title>Placeholder</title>
-                <rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef"
-                  dy=".3em">Thumbnail</text>
-              </svg>
-              <div class="card-body">
-                <p class="card-text">Old boy</p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <!-- TODO: 갱신날짜가 수정될 때마다 뜨도록 (계속 관리되는 느낌 받게) -->
-                  <small class="text-muted">갱신날짜: 2020-09-02 20:20</small>
+            <a href="/movies/movie/{{ movie.id }}/">
+              <div class=" card mb-4 shadow-sm">
+                <svg class="bd-placeholder-img card-img-top" width="100%" height="400"
+                  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img"
+                  aria-label="Placeholder: Thumbnail">
+                  <title>Placeholder</title>
+                  <rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef"
+                    dy=".3em">Thumbnail</text>
+                </svg>
+                <div class="card-body">
+                  <p class="card-text">{{ movie.title }}</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <!-- TODO: 갱신날짜가 수정될 때마다 뜨도록 (계속 관리되는 느낌 받게) -->
+                    <small class="text-muted">{{ movie.create_date }}</small>
+                  </div>
                 </div>
               </div>
-            </div>
+            </a>
           </div>
-          <div class="col-md-4">
+          {% endfor %}
+          {% else %}
+          <p>영화가 없습니다.</p>
+        </div>
+        {% endif %}
+        <!-- <div class="col-md-4">
             <div class="card mb-4 shadow-sm">
               <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg"
                 preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
@@ -283,8 +303,8 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </div> -->
+        <!-- </div> -->
 
   </main>
 

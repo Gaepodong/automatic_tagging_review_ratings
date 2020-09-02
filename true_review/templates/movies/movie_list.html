@@ -4,6 +4,6 @@
     {% for movie in movie_list %}
     <li><a href="/movies/movie/{{ movie.id }}/">{{ movie.title }}</a></li>
     {% endfor %}
-    {% else %}
+    {% else %
     <p>영화가 없습니다.</p>
     {% endif %}
