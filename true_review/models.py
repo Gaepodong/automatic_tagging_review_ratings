@@ -4,7 +4,7 @@ from true_review import db
 class Movies(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
-    # code = db.Column(db.Integer, nullable=False)
+    code = db.Column(db.Integer, nullable=True)
     create_date = db.Column(db.DateTime(), nullable=False)
     image_path = db.Column(db.Text(), nullable=True)
 
