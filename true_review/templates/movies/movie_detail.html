@@ -89,12 +89,13 @@
                         <p class="card-text mb-auto">This is a wider card with supporting text below as a natural
                             lead-in to additional content.</p> -->
                         <ol>
-                            <li>aasdasd1</li>
-                            <li>aasdasd2</li>
-                            <li>aasdasd3</li>
-                            <li>aasdasd4</li>
-                            <li>aasdasd5</li>
+                            {% for review in review_list %}
+                            {% if review.emotion == True %}
+                            <li>{{ review.content }}</li>
+                            {% endif %}
+                            {% endfor %}
                         </ol>
+
                     </div>
                     <!-- <div class="col-auto d-none d-lg-block">
                         <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg"
@@ -117,11 +118,11 @@
                         <p class="card-text mb-auto">This is a wider card with supporting text below as a natural
                             lead-in to additional content.</p> -->
                         <ol>
-                            <li>aasdasd1</li>
-                            <li>aasdasd2</li>
-                            <li>aasdasd3</li>
-                            <li>aasdasd4</li>
-                            <li>aasdasd5</li>
+                            {% for review in review_list %}
+                            {% if review.emotion == False %}
+                            <li>{{ review.content }}</li>
+                            {% endif %}
+                            {% endfor %}
                         </ol>
                     </div>
                     <!-- <div class="col-auto d-none d-lg-block">

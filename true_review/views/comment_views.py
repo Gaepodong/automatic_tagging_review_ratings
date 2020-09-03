@@ -4,7 +4,7 @@ from flask import Blueprint, url_for, request, render_template
 from werkzeug.utils import redirect
 
 from true_review import db
-from true_review.models import Comments, Movies
+from true_review.models import Comments, Movies, Reviews
 
 from true_review.forms import CommentForm
 
@@ -14,6 +14,8 @@ bp = Blueprint('comment', __name__, url_prefix='/comment')
 @bp.route('/create/<int:movie_id>', methods=('GET', 'POST'))
 def create(movie_id):
     movie = Movies.query.get_or_404(movie_id)
+    review_list = Reviews.query.filter_by(
+        movie_id=movie.id).order_by(Reviews.text_rank.desc())
     form = CommentForm()
     if request.method == 'POST' and form.validate_on_submit():
         # TODO rating 받아오기
@@ -23,7 +25,5 @@ def create(movie_id):
         movie.comment_set.append(comment)
         db.session.commit()
         return redirect(url_for('movies.movie', movie_code=movie.code, isFirstRender=0))
-    print(form.errors)
     # return redirect(url_for('movies.movie', movie_code=movie.code, form=form))
-
-    return render_template('movies/movie_detail.html', movie=movie, form=form, isFirstRender=1)
+    return render_template('movies/movie_detail.html', movie=movie, form=form, isFirstRender=1, review_list=review_list)
