@@ -26,13 +26,13 @@ def getImageUrl(code):
     return imageUrl['src']
 
 
-@bp.route('/movie/<int:movie_code>/')
-def movie(movie_code):
+@bp.route('/movie/<int:movie_code>/<int:isFirstRender>/')
+def movie(movie_code, isFirstRender):
     movie = db.session.query(Movies).filter_by(code=movie_code).first()
     form = CommentForm()
     if movie == None:
         return redirect(url_for('movies._list'))
-    return render_template('movies/movie_detail.html', movie=movie, form=form)
+    return render_template('movies/movie_detail.html', movie=movie, form=form, isFirstRender=isFirstRender)
 
 
 @bp.route('/list/')

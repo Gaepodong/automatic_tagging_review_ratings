@@ -22,8 +22,8 @@ def create(movie_id):
                            movie_rating=movie_rating, create_date=datetime.now())
         movie.comment_set.append(comment)
         db.session.commit()
-        return redirect(url_for('movies.movie', movie_code=movie.code))
+        return redirect(url_for('movies.movie', movie_code=movie.code, isFirstRender=0))
     print(form.errors)
     # return redirect(url_for('movies.movie', movie_code=movie.code, form=form))
 
-    return render_template('movies/movie_detail.html', movie=movie, form=form)
+    return render_template('movies/movie_detail.html', movie=movie, form=form, isFirstRender=1)
