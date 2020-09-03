@@ -18,12 +18,16 @@ def create(movie_id):
         movie_id=movie.id).order_by(Reviews.text_rank.desc())
     form = CommentForm()
     if request.method == 'POST' and form.validate_on_submit():
-        # TODO rating 받아오기
-        movie_rating = 1
+        # TODO rating, emotion_percent 가져오기
+        # emotion_percent = getEmotion(comment.content)
+        # movie_rating = getRating(comment.content)
+        emotion_percent = 0.8
+        movie_rating = 10
         comment = Comments(movie_id=movie_id, content=form.content.data,
-                           movie_rating=movie_rating, create_date=datetime.now())
+                           movie_rating=movie_rating, create_date=datetime.now(), emotion_percent=emotion_percent)
         movie.comment_set.append(comment)
         db.session.commit()
-        return redirect(url_for('movies.movie', movie_code=movie.code, isFirstRender=0))
+        # return redirect(url_for('movies.movie', movie_code=movie.code, isFirstRender=0))
+        return render_template('movies/movie_detail.html', movie=movie, form=form, isFirstRender=0, review_list=review_list, comment=comment)
     # return redirect(url_for('movies.movie', movie_code=movie.code, form=form))
-    return render_template('movies/movie_detail.html', movie=movie, form=form, isFirstRender=1, review_list=review_list)
+    return render_template('movies/movie_detail.html', movie=movie, form=form, isFirstRender=1, review_list=review_list, comment=None)

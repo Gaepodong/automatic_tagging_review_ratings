@@ -110,8 +110,8 @@ h6 {
 	}
 }
 
-.checked {
-	color: orange;
+.analaysis {
+	display: flex;
 }
 
 /*

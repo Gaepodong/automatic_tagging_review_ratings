@@ -34,7 +34,8 @@ def movie(movie_code, isFirstRender):
     form = CommentForm()
     if movie == None:
         return redirect(url_for('movies._list'))
-    return render_template('movies/movie_detail.html', movie=movie, form=form, isFirstRender=isFirstRender, review_list=review_list)
+    # return render_template('movies/movie_detail.html', movie=movie, form=form, isFirstRender=isFirstRender, review_list=review_list)
+    return render_template('movies/movie_detail.html', movie=movie, form=form, isFirstRender=isFirstRender, review_list=review_list, comment=None)
 
 
 @bp.route('/list/')
