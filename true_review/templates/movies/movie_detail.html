@@ -15,6 +15,8 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
 
+
+
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -33,6 +35,8 @@
     </style>
     <!-- Custom styles for this template -->
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+    <!-- Star rating icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Custom styles for this template -->
     <link rel="stylesheet" href="{{ url_for('static', filename='blog.css') }}">
 </head>
@@ -41,12 +45,10 @@
     <div class="container">
         <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark">
             <div class="col-md-12 px-0">
-                <h1 class="display-4 font-italic" style="text-align :left">현재 영화 <br> </h1>
-                <!-- <h1 class="display-4 font-italic" style="text-align :center">"Oldboy" <br> </h1> -->
-                <!-- <h1 class="display-4 font-italic" style="position: relative; left:20%;">"Oldboy" <br> </h1> -->
-                <h1 class="display-3" style="font-family: 'Helvetica Neue'; position: relative; left:20%;">
-                    "{{ movie.title }}" <br> </h1>
-                <h1 class="display-4 font-italic" style="text-align :right">긍정 부정 대표 리뷰입니다. <br> </h1>
+                <h1 class="display-4 font-italic" style="text-align :left">영화 <br> </h1>
+                <h3 class="display-3" style="font-family: 'Helvetica Neue'; text-align: center;">
+                    "{{ movie.title }}" <br> </h3>
+                <h1 class="display-4 font-italic" style="text-align :right">긍정 부정 대표 리뷰<br> </h1>
             </div>
         </div>
 
@@ -111,34 +113,33 @@
     </div>
 
     <main role="main" class="container">
-        <div class="form-group">
+        <form class="post-form my-3" action="{{ url_for('comment.create', movie_id=movie.id) }}" method="post">
             <!-- form의 버튼을 누르면 action을 실행. action은 comment.create 함수를 실행 -->
-            <form action="{{ url_for('comment.create', movie_id=movie.id) }}" method="post">
-                {{ form.csrf_token}}
-                {% for field, errors in form.errors.items() %}
-                <div class="alert alert-danger" role="alert">
-                    <strong>{{ form[field].label }}</strong>: {{ ', '.join(errors) }}
-                </div>
-                {% endfor %}
-                <input class="col-md-8" name="content" id="content" rows="50" resize="none"
-                    placeholder="댓글 등록이 가능합니다. 당신의 댓글을 추가해주세요!" display="inline"></input>
+            {{ form.csrf_token}}
+            {% for field, errors in form.errors.items() %}
+            <div class="alert alert-danger" role="alert">
+                <strong>{{ form[field].label }}</strong>: {{ ', '.join(errors) }}
+            </div>
+            {% endfor %}
+            <div class="form-group">
+                <textarea class="col-md-10" name="content" id="content" rows="4" resize="none"
+                    placeholder="댓글 등록이 가능합니다. 당신의 댓글을 추가해주세요!" display="inline"></textarea>
                 <div class="float-right">
                     <button type="submit" class="btn btn-outline-primary">저장하기</button>
                 </div>
-            </form>
-            <!-- <a class="btn btn-outline-primary" href="#">Older</a>
+            </div>
+        </form>
+        <!-- <a class="btn btn-outline-primary" href="#">Older</a>
                     <a class="btn btn-outline-secondary disabled" href="#" tabindex="-1" aria-disabled="true">Newer</a> -->
-        </div>
         <div class="row">
             <div class="col-md-8 blog-main">
-                <div class="blog-post border">
-                    <h2 class="blog-post-title">Sample blog post</h2>
-                    <p class="blog-post-meta">January 1, 2014 by <a href="#">Mark</a></p>
-
-                    <p>This blog post shows a few different types of content that’s supported and styled with Bootstrap.
-                        Basic typography, images, and code are all supported.</p>
-                    <hr>
-                    <p>Cum sociis natoque penatibus et magnis <a href="#">dis parturient montes</a>, nascetur ridiculus
+                <div class="blog-post border" class="test">
+                    <h2 class="comment-analaysis">당신은 영화 "{{ movie.title }}"에 대해 xx xx 의 마음을
+                        표하셨습니다!</h2>
+                    <!-- <p>This blog post shows a few different types of content that’s supported and styled with Bootstrap.
+                        Basic typography, images, and code are all supported.</p> -->
+                    <br>
+                    <!-- <p>Cum sociis natoque penatibus et magnis <a href="#">dis parturient montes</a>, nascetur ridiculus
                         mus. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere
                         consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.</p>
                     <blockquote>
@@ -146,23 +147,28 @@
                             ornare vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
                     </blockquote>
                     <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet
-                        fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
+                        fermentum. Aenean lacinia bibendum nulla sed consectetur.</p> -->
                 </div>
 
 
-                <nav class="blog-pagination">
+                <!-- <nav class="blog-pagination">
                     <a class="btn btn-outline-primary" href="#">Older</a>
                     <a class="btn btn-outline-secondary disabled" href="#" tabindex="-1" aria-disabled="true">Newer</a>
-                </nav>
+                </nav> -->
 
             </div><!-- /.blog-main -->
 
             <!-- 평점이 들어갈 수 있게 -->
             <aside class="col-md-4 blog-sidebar">
                 <div class="p-4 mb-3 bg-light rounded">
-                    <h4 class="font-italic">About</h4>
+                    <span class="fa fa-star checked" style="color:orange"></span>
+                    <span class="fa fa-star checked" style="color:orange"></span>
+                    <span class="fa fa-star checked" style="color:orange"></span>
+                    <span class="fa fa-star checked" style="color:orange"></span>
+                    <span class="fa fa-star"></span>
+                    <!-- <h4 class="font-italic">About</h4>
                     <p class="mb-0">Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur
-                        purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
+                        purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p> -->
                 </div>
             </aside><!-- /.blog-sidebar -->
 

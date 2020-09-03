@@ -12,5 +12,5 @@ class CommentForm(FlaskForm):
     # 만약 데이터 타입이 문자열이고 문자열에 whitespace만 있다면 False로 간주
     # 인자로 들어오는 값은 message로 alert 경고문에 출력되는 내용인듯
     # Length 입력값의 길이 체크
-    content = TextField('내용', validators=[DataRequired('내용을 입력해주세요!'), Length(
-        min=20, max=200, message="Comment needs at least 20 characters")])
+    content = TextField('내용', validators=[Length(
+        min=20, max=200, message="Comment needs at least %(min)d characters")])
