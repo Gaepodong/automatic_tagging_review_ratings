@@ -41,10 +41,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='blog.css') }}">
 
     <script>
-        // function show() {
-        //     document.getElementById("showHide").style.display = 'block';
-        // }
-
         showHideFlag = 0;
 
         window.onload = function hide() {
@@ -55,15 +51,6 @@
                 document.getElementById("showHide").style.display = 'block';
             }
         }
-
-        // function showHide() {
-        //     if (document.getElementById("showHide").style.display == 'none') {
-        //         document.getElementById("showHide").style.display = 'block';
-        //     }
-        //     else {
-        //         document.getElementById("showHide").style.display = 'none';
-        //     }
-        // }
     </script>
 </head>
 
@@ -84,10 +71,6 @@
                     class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                     <div class="col p-4 d-flex flex-column position-static">
                         <h3 class="d-inline-block mb-2 text-primary">긍정 리뷰</h3>
-                        <!-- <h3 class="mb-0">긍정</h3> -->
-                        <!-- <div class="mb-1 text-muted">Nov 12</div>
-                        <p class="card-text mb-auto">This is a wider card with supporting text below as a natural
-                            lead-in to additional content.</p> -->
                         <ol>
                             {% for review in review_list %}
                             {% if review.emotion == True %}
@@ -97,15 +80,6 @@
                         </ol>
 
                     </div>
-                    <!-- <div class="col-auto d-none d-lg-block">
-                        <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg"
-                            preserveAspectRatio="xMidYMid slice" focusable="false" role="img"
-                            aria-label="Placeholder: Thumbnail">
-                            <title>Placeholder</title>
-                            <rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef"
-                                dy=".3em">Thumbnail</text>
-                        </svg>
-                    </div> -->
                 </div>
             </div>
             <div class="col-md-6">
@@ -113,10 +87,6 @@
                     class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                     <div class="col p-4 d-flex flex-column position-static">
                         <h3 class="d-inline-block mb-2 text-danger">부정 리뷰</h3>
-                        <!-- <h3 class="mb-0">긍정</h3> -->
-                        <!-- <div class="mb-1 text-muted">Nov 12</div>
-                        <p class="card-text mb-auto">This is a wider card with supporting text below as a natural
-                            lead-in to additional content.</p> -->
                         <ol>
                             {% for review in review_list %}
                             {% if review.emotion == False %}
@@ -125,15 +95,6 @@
                             {% endfor %}
                         </ol>
                     </div>
-                    <!-- <div class="col-auto d-none d-lg-block">
-                        <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg"
-                            preserveAspectRatio="xMidYMid slice" focusable="false" role="img"
-                            aria-label="Placeholder: Thumbnail">
-                            <title>Placeholder</title>
-                            <rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef"
-                                dy=".3em">Thumbnail</text>
-                        </svg>
-                    </div> -->
                 </div>
             </div>
         </div>
@@ -165,8 +126,6 @@
                 </div>
             </div>
         </form>
-        <!-- <a class="btn btn-outline-primary" href="#">Older</a>
-                    <a class="btn btn-outline-secondary disabled" href="#" tabindex="-1" aria-disabled="true">Newer</a> -->
         <div class="row" id="showHide">
             <div class="col-md-8 blog-main">
                 <div class="blog-post border" class="test">
@@ -197,9 +156,6 @@
                     {% endif %}
                     {% endif %}
                     {% endfor %}
-                    <!-- <span class="fa fa-star checked" style="color:orange"></span>
-                    <span class="fa fa-star checked" style="color:orange"></span>
-                    <span class="fa fa-star checked" style="color:orange"></span> -->
                     <h4 class="font-italic">댓글에서 추출한 평점: xx점</h4>
                 </div>
             </aside>
