@@ -101,7 +101,8 @@
     </div>
 
     <main role="main" class="container">
-        <form class="post-form my-3" action="{{ url_for('comment.create', movie_id=movie.id) }}" method="post">
+        <!-- <form class="post-form my-3" action="{{ url_for('comment.create', movie_id=movie.id) }}" method="post"> -->
+        <form class="post-form my-3" action="{{ http://yohan.com/comment-analaysis/ }}" method="post">
             <!-- form의 버튼을 누르면 action을 실행. action은 comment.create 함수를 실행 -->
             {{ form.csrf_token}}
             {% for field, errors in form.errors.items() %}
