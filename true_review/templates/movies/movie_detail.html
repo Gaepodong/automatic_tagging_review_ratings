@@ -148,8 +148,13 @@
                         <br>
                         {% else %}
                         <h2 class="comment-analaysis">당신은 영화 "{{ movie.title }}"에 대해
+                            {% if comment.pos_or_neg == 1 %}
                             {{ '%0.2f' % (comment.emotion_percent)  }} % 긍정,
                             {{ '%0.2f' % (100 - comment.emotion_percent) }} % 부정의
+                            {% else %}
+                            {{ '%0.2f' % (100 - comment.emotion_percent) }} % 긍정,
+                            {{ '%0.2f' % (comment.emotion_percent) }} % 부정의
+                            {% endif %}
                             마음을
                             표하셨습니다!</h2>
                         <br>
