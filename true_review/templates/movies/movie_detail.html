@@ -148,7 +148,8 @@
                         <br>
                         {% else %}
                         <h2 class="comment-analaysis">당신은 영화 "{{ movie.title }}"에 대해
-                            {{ comment.emotion_percent * 100 }} % 긍정, {{ (1 - comment.emotion_percent) * 100 }} % 부정의
+                            {{ '%0.2f' % (comment.emotion_percent)  }} % 긍정,
+                            {{ '%0.2f' % (100 - comment.emotion_percent) }} % 부정의
                             마음을
                             표하셨습니다!</h2>
                         <br>
@@ -170,7 +171,7 @@
                         <!-- <span class="fa fa-star checked" style="color:orange"></span>
                         <span class="fa fa-star checked" style="color:orange"></span>
                         <span class="fa fa-star checked" style="color:orange"></span> -->
-                        <h4 class="font-italic">댓글에서 추출한 평점: xx점</h4>
+                        <h4 class="font-italic">댓글에서 추출한 평점: {{ comment.movie_rating }}점</h4>
                     </div>
                 </div>
             </div>

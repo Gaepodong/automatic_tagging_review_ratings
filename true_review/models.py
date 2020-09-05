@@ -35,11 +35,13 @@ class Comments(db.Model):
     movie_rating = db.Column(db.Integer, nullable=False)
     create_date = db.Column(db.DateTime(), nullable=False)
     emotion_percent = db.Column(db.Float, nullable=True)
+    pos_or_neg = db.Column(db.Boolean, nullable=True)
     movie = db.relationship('Movies', backref=db.backref('comment_set'))
 
-    def __init__(self, movie_id, content, movie_rating, create_date, emotion_percent):
+    def __init__(self, movie_id, content, movie_rating, create_date, emotion_percent, pos_or_neg):
         self.movie_id = movie_id
         self.content = content
         self.movie_rating = movie_rating
         self.create_date = create_date
         self.emotion_percent = emotion_percent
+        self.pos_or_neg = pos_or_neg
