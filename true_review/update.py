@@ -17,9 +17,6 @@ def get_title(code):
     title = soup.find('h3', class_='h_movie').find('a').text
     return title
 
-# print(type(객체))
-# print(dir(객체))
-
 
 def get_image_url(code):
     # make Url
@@ -59,7 +56,7 @@ def update_movies():
     old_movie_code_list = [i[0] for i in list(get_movie_code_list())]
 
 # list.remove(찾을아이템)
-# 찾을 아이템이 없으면 ValueError 발생k
+# 찾을 아이템이 없으면 ValueError 발생
     for movie in old_movie_code_list:
         try:
             movie_code_list.remove(movie)
@@ -70,8 +67,6 @@ def update_movies():
     for movie_code in movie_code_list:
         title = get_title(movie_code)
         imageUrl = get_image_url(movie_code)
-        print(title)
-        print(imageUrl)
         movie = Movies(title, movie_code, datetime.now(), imageUrl)
         db.session.add(movie)
     db.session.commit()
@@ -80,25 +75,25 @@ def update_movies():
     print(new_movie_code_list)
     return new_movie_code_list
 
-
 def update_reviews(movie_code):
     movie = db.session.query(Movies).filter_by(code=movie_code).first()
-
+    path = 'ranked_reviews/' + str(movie_code) + '.csv'
     try:
-        path = 'ranked_reviews/' + str(movie_code) + '.csv'
-        print("path: {}".format(path))
-        review_file = open(path, 'r', encoding='euc-kr')
-        print("test")
-    except Exception as e:
+        review_file = open(path, 'r', encoding='cp949')
+    except FileNotFoundError as e:
         print("Error: ", e)
-        return (1)
+        return 0
     rdr = csv.reader(review_file)
+    # 인코딩에러는 rdr 객체를 반복문에 돌릴 때 발생한다.
+    # 이 부분을 함수화 해서 UnicodeDecodeError가 발생하면
+    # euc-kr, utf-8 등으로 다시 인코딩 해야할듯
     for i, line in enumerate(rdr):
         if i == 0:
             continue
-        for i in range(3):
-            print("line[{}]: {}".format(i, line[i]))
-        reviews = Reviews(movie.id, float(line[1]), line[2], -1, int(line[3]))
+        text_rank = float(line[1])
+        content = line[2]
+        emotion = int(line[3])
+        reviews = Reviews(movie.id, text_rank, content, -1, emotion)
         movie.review_set.append(reviews)
-        db.session.commit()
+    db.session.commit()
     review_file.close()
