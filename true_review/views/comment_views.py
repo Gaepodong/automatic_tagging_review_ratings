@@ -23,7 +23,7 @@ def create(movie_id):
     if request.method == 'POST' and form.validate_on_submit():
 
         # TODO: predict 보낼 사이트 주소는 환경변수로 숨기기
-        response = req.post('http://dd8aae8e80ab.ngrok.io/predict',
+        response = req.post('http://ac8484fe2df6.ngrok.io/predict',
                             data={'text': form.content.data}).json()
         # TODO rating, emotion_percent 가져오기
         emotion_percent = response['emotion_percent']
