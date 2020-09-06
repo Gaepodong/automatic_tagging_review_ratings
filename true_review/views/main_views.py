@@ -17,7 +17,8 @@ def update_movies_and_reviews():
     new_movie_code_list = update_movies()
     for movie_code in new_movie_code_list:
         update_reviews(movie_code)
-    return redirect(url_for('movies._list'))
+    #return redirect(url_for('movies._list'))
+    return "updated"
 
 
 @bp.route('/')
