@@ -9,6 +9,7 @@ class Movies(db.Model):
     code = db.Column(db.Integer, nullable=True, unique=True)
     create_date = db.Column(db.DateTime(), nullable=False)
     image_path = db.Column(db.Text(), nullable=True)
+    db.UniqueConstraint('id', 'code')
 
     def __init__(self, title, code, create_date, image_path):
         self.title = title
@@ -26,17 +27,16 @@ class Reviews(db.Model):
     text_rank = db.Column(db.Float, nullable=True)
     content = db.Column(db.Text(), nullable=False)
     # TODO: movie_rating은 삭제할 것
-    movie_rating = db.Column(db.Integer, nullable=False)
+    # movie_rating = db.Column(db.Integer, nullable=False)
     # TODO: emotion을 pos_or_neg로 바꿔야함.
-    emotion = db.Column(db.Boolean, nullable=False)
+    pos_or_neg = db.Column(db.Boolean, nullable=False)
     reviews = db.relationship('Movies', backref=db.backref('review_set'))
 
-    def __init__(self, movie_id, text_rank, content, movie_rating, emotion):
+    def __init__(self, movie_id, text_rank, content, pos_or_neg):
         self.movie_id = movie_id
         self.text_rank = text_rank
         self.content = content
-        self.movie_rating = movie_rating
-        self.emotion = emotion
+        self.pos_or_neg = pos_or_neg
 
 # 새로 다는 리뷰
 

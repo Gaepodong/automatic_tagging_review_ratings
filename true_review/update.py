@@ -44,26 +44,19 @@ def get_movie_code_list():
 
 
 def update_movies():
-    # 1. ranked_reviews 폴더에 존재하는 code.csv 파일 목록 list로 저장  V
-    # 2. 이미 db에 올라와 있는 파일들을 list에서 제거
-    # 3. 크롤링으로 title, image_path 가져오기 (image_path 가죠오는건 이미 존재)
-    # 4. 데이터 추가하기
-    # 5.
     path_dir = 'ranked_reviews/'
     file_list = os.listdir(path_dir)
     movie_code_list = [int(i.split('.')[0]) for i in file_list]
 
     old_movie_code_list = [i[0] for i in list(get_movie_code_list())]
 
-# list.remove(찾을아이템)
-# 찾을 아이템이 없으면 ValueError 발생
     for movie in old_movie_code_list:
         try:
             movie_code_list.remove(movie)
         except:
             pass
 
-    print(movie_code_list)
+    print("존재하는 파일 리스트: ",movie_code_list)
     for movie_code in movie_code_list:
         title = get_title(movie_code)
         imageUrl = get_image_url(movie_code)
@@ -71,8 +64,8 @@ def update_movies():
         db.session.add(movie)
     db.session.commit()
 
-    new_movie_code_list = list(set(movie_code_list + old_movie_code_list))
-    print(new_movie_code_list)
+    new_movie_code_list = list(set(movie_code_list + old_movie_code_list))   # 중복없는 모든 무비코드.
+    print("리뷰가 업데이트 되는 리스트: ",new_movie_code_list)
     return new_movie_code_list
 
 def update_reviews(movie_code):
@@ -80,6 +73,7 @@ def update_reviews(movie_code):
     path = 'ranked_reviews/' + str(movie_code) + '.csv'
     try:
         review_file = open(path, 'r', encoding='cp949')
+        # review_file = open(path, 'r', encoding='euc-kr')
     except FileNotFoundError as e:
         print("Error: ", e)
         return 0
@@ -87,13 +81,19 @@ def update_reviews(movie_code):
     # 인코딩에러는 rdr 객체를 반복문에 돌릴 때 발생한다.
     # 이 부분을 함수화 해서 UnicodeDecodeError가 발생하면
     # euc-kr, utf-8 등으로 다시 인코딩 해야할듯
-    for i, line in enumerate(rdr):
-        if i == 0:
-            continue
-        text_rank = float(line[1])
-        content = line[2]
-        emotion = int(line[3])
-        reviews = Reviews(movie.id, text_rank, content, -1, emotion)
-        movie.review_set.append(reviews)
-    db.session.commit()
+    try:
+        for i, line in enumerate(rdr):
+            if i == 0:
+                continue
+            text_rank = float(line[1])
+            content = line[2]
+            pos_or_neg = int(line[3])
+            reviews = Reviews(movie.id, text_rank, content, pos_or_neg)
+            movie.review_set.append(reviews)
+    except:
+        print("Error movie code: {}".format(movie_code))
+    try:
+        db.session.commit()
+    except:
+        pass
     review_file.close()
