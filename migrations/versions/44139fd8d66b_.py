@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 95c68cade41e
+Revision ID: 44139fd8d66b
 Revises: 
-Create Date: 2020-09-02 17:51:00.395453
+Create Date: 2020-09-06 12:45:56.078651
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '95c68cade41e'
+revision = '44139fd8d66b'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -21,9 +21,11 @@ def upgrade():
     op.create_table('movies',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('title', sa.String(length=100), nullable=False),
+    sa.Column('code', sa.Integer(), nullable=True),
     sa.Column('create_date', sa.DateTime(), nullable=False),
     sa.Column('image_path', sa.Text(), nullable=True),
-    sa.PrimaryKeyConstraint('id')
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('code')
     )
     op.create_table('comments',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -31,6 +33,8 @@ def upgrade():
     sa.Column('content', sa.Text(), nullable=False),
     sa.Column('movie_rating', sa.Integer(), nullable=False),
     sa.Column('create_date', sa.DateTime(), nullable=False),
+    sa.Column('emotion_percent', sa.Float(), nullable=True),
+    sa.Column('pos_or_neg', sa.Boolean(), nullable=True),
     sa.ForeignKeyConstraint(['movie_id'], ['movies.id'], ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('id')
     )
@@ -39,8 +43,7 @@ def upgrade():
     sa.Column('movie_id', sa.Integer(), nullable=True),
     sa.Column('text_rank', sa.Float(), nullable=True),
     sa.Column('content', sa.Text(), nullable=False),
-    sa.Column('movie_rating', sa.Integer(), nullable=False),
-    sa.Column('emotion', sa.Boolean(), nullable=False),
+    sa.Column('pos_or_neg', sa.Boolean(), nullable=False),
     sa.ForeignKeyConstraint(['movie_id'], ['movies.id'], ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('id')
     )
