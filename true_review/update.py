@@ -87,9 +87,6 @@ def update_reviews(movie_code):
         print("Error: ", e)
         return 0
     rdr = csv.reader(review_file)
-    # 인코딩에러는 rdr 객체를 반복문에 돌릴 때 발생한다.
-    # 이 부분을 함수화 해서 UnicodeDecodeError가 발생하면
-    # euc-kr, utf-8 등으로 다시 인코딩 해야할듯
     try:
         for i, line in enumerate(rdr):
             if i == 0:
