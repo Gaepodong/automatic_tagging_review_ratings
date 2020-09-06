@@ -62,7 +62,11 @@ def update_movies():
         imageUrl = get_image_url(movie_code)
         movie = Movies(title, movie_code, datetime.now(), imageUrl)
         db.session.add(movie)
-    db.session.commit()
+    try:
+        db.session.commit()
+    except:
+        print("중복 생략...")
+        return []
 
     exist_movie_code_list = list(set(movie_code_list + old_movie_code_list))
     update_target_movies = []
