@@ -11,6 +11,9 @@ class Movies(db.Model):
     image_path = db.Column(db.Text(), nullable=True)
     db.UniqueConstraint('id', 'code')
 
+    reviews = db.relationship(
+        "Reviews", backref=db.backref('movie', order_by=id))
+
     def __init__(self, title, code, create_date, image_path):
         self.title = title
         self.code = code
