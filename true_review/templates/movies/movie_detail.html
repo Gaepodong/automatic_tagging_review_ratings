@@ -13,10 +13,7 @@
     <!-- <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/blog/"> -->
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
-
-
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.css') }}">
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -56,7 +53,7 @@
 
 <body>
     <div class="container">
-        <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark">
+        <div class="jumbotron p-4 p-md-5 text-white rounded bg-ours">
             <div class="col-md-12 px-0">
                 <h1 class="display-4 font-italic" style="text-align :left">영화 <br> </h1>
                 <h4 class="display-3" style="font-family: 'Helvetica Neue'; text-align: center;">
@@ -68,13 +65,14 @@
         <div class="row mb-2">
             <div class="col-md-6">
                 <div
-                    class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                    class="row no-gutters border rounded flex-md-row mb-4 shadow-sm h-md-250 overflow-auto position-relative">
                     <div class="col p-4 d-flex flex-column position-static">
-                        <h3 class="d-inline-block mb-2 text-primary">긍정 리뷰</h3>
+                        <h3 class="d-inline-block mb-2 text-primary">긍정 대표 리뷰</h3>
                         <ol>
                             {% for review in review_list %}
                             {% if review.pos_or_neg == True %}
                             <li>{{ review.content }}</li>
+                            <br>
                             {% endif %}
                             {% endfor %}
                         </ol>
@@ -84,13 +82,15 @@
             </div>
             <div class="col-md-6">
                 <div
-                    class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                    class="row no-gutters border rounded overflow-auto flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                    <!-- <div class="col p-4 d-flex flex-column position-static"> -->
                     <div class="col p-4 d-flex flex-column position-static">
-                        <h3 class="d-inline-block mb-2 text-danger">부정 리뷰</h3>
+                        <h3 class="d-inline-block mb-2 text-danger">부정 대표 리뷰</h3>
                         <ol>
                             {% for review in review_list %}
                             {% if review.pos_or_neg == False %}
                             <li>{{ review.content }}</li>
+                            <br>
                             {% endif %}
                             {% endfor %}
                         </ol>
@@ -116,7 +116,6 @@
                     {% if isFirstRender == 0 %}
                     <script>
                         showHideFlag = 1
-                        console.log("wowowwo")
                     </script>
                     {% endif %}
                     {% endif %}
@@ -137,30 +136,45 @@
         <!-- <a class="btn btn-outline-primary" href="#">Older</a>
                     <a class="btn btn-outline-secondary disabled" href="#" tabindex="-1" aria-disabled="true">Newer</a> -->
         <div id="showHide">
-            <div class="row">
+            <!-- <div class="bg-light rounded"> -->
+            <!-- <h6 class="bg-light"> 당신이 작성한 댓글</h6> -->
+            <span class="bg-light"> 당신이 작성한 댓글</span>
+
+            <div class="row no-gutters border rounded flex-md-row mb-4 shadow-sm overflow-auto position-relative"
+                style="height:100px">
+                {{ comment.content }}
+            </div>
+            <div class=" row">
                 <div class="col-md-8">
-                    <div class="blog-post border border-primary test">
+                    <div class="bg-light rounded">
+                        <!-- <div class="blog-post border border-primary test"> -->
                         {% if comment == None %}
-                        <h2 class="comment-analaysis">당신은 영화 "{{ movie.title }}"에 대해
+                        <p class="comment-analaysis">당신은 영화 "{{ movie.title }}"에 대해
                             null % 긍정, null % 부정의
                             마음을
-                            표하셨습니다!</h2>
+                            표하셨습니다!</p>
                         <br>
                         {% else %}
-                        <h2 class="comment-analaysis">당신은 영화 "{{ movie.title }}"에 대해
+                        <p class="comment-analaysis">당신은 영화 "{{ movie.title }}"에 대해
+                            <br>
                             {% if comment.pos_or_neg == 1 %}
-                            {{ '%0.2f' % (comment.emotion_percent)  }} % 긍정,
-                            {{ '%0.2f' % (100 - comment.emotion_percent) }} % 부정의
+                            <span style="color:blue">
+                                {{ '%0.2f' % (comment.emotion_percent)  }} % 긍정</span>,
+
+                            <span style="color:red">
+                                {{ '%0.2f' % (100 - comment.emotion_percent) }} % 부정</span>의
                             {% else %}
-                            {{ '%0.2f' % (100 - comment.emotion_percent) }} % 긍정,
-                            {{ '%0.2f' % (comment.emotion_percent) }} % 부정의
+                            <span style="color:blue">
+                                {{ '%0.2f' % (100 - comment.emotion_percent) }} % 긍정</span>,
+                            <span style=" color:red">
+                                {{ '%0.2f' % (comment.emotion_percent) }} % 부정</span>의
                             {% endif %}
                             마음을
-                            표하셨습니다!</h2>
-                        <br>
+                            표하셨습니다!</p>
+                        <!-- <br> -->
                         {% endif  %}
                     </div>
-                </div><!-- /.blog-main -->
+                </div>
                 <div class="col-md-4">
                     <div class="bg-light rounded">
                         {% for star in range(10) %}
@@ -173,26 +187,26 @@
                         {% endif %}
                         {% endif %}
                         {% endfor %}
-                        <!-- <span class="fa fa-star checked" style="color:orange"></span>
-                        <span class="fa fa-star checked" style="color:orange"></span>
-                        <span class="fa fa-star checked" style="color:orange"></span> -->
-                        <h4 class="font-italic">댓글에서 추출한 평점: {{ comment.movie_rating }}점</h4>
+                        <br>
+                        <p class="font-italic" style="display: block;">댓글에서 추출한 평점: {{ comment.movie_rating }}점</p>
                     </div>
                 </div>
             </div>
-            <!--/.blog-sidebar -->
-            <!-- 평점이 들어갈 수 있게 -->
 
         </div><!-- /.row -->
 
     </div><!-- /.container -->
 
     <footer class="blog-footer">
-        <p>Blog template built for <a href="https://getbootstrap.com/">Bootstrap</a> by <a
-                href="https://twitter.com/mdo">@mdo</a>.</p>
         <p>
-            <a href="#">Back to top</a>
+            <a href="http://localhost:5000/movies/list/">
+                <button type="button" class="btn btn-primary bg-ours">이전 페이지</button>
+            </a>
+            <a href="#">
+                <button type="button" class="btn btn-primary bg-ours">위로 </button>
+            </a>
         </p>
+        <p>by <a href="https://github.com/Gaepodong/automatic_tagging_review_ratings">team gaepodong</a></p>
     </footer>
 </body>
 
