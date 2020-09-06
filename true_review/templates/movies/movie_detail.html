@@ -73,7 +73,7 @@
                         <h3 class="d-inline-block mb-2 text-primary">긍정 리뷰</h3>
                         <ol>
                             {% for review in review_list %}
-                            {% if review.emotion == True %}
+                            {% if review.pos_or_neg == True %}
                             <li>{{ review.content }}</li>
                             {% endif %}
                             {% endfor %}
@@ -89,7 +89,7 @@
                         <h3 class="d-inline-block mb-2 text-danger">부정 리뷰</h3>
                         <ol>
                             {% for review in review_list %}
-                            {% if review.emotion == False %}
+                            {% if review.pos_or_neg == False %}
                             <li>{{ review.content }}</li>
                             {% endif %}
                             {% endfor %}
