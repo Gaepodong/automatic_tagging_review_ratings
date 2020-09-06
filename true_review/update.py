@@ -56,7 +56,7 @@ def update_movies():
         except:
             pass
 
-    print("존재하는 파일 리스트: ",movie_code_list)
+    print("존재하는 파일 리스트: ", movie_code_list)
     for movie_code in movie_code_list:
         title = get_title(movie_code)
         imageUrl = get_image_url(movie_code)
@@ -64,9 +64,18 @@ def update_movies():
         db.session.add(movie)
     db.session.commit()
 
-    new_movie_code_list = list(set(movie_code_list + old_movie_code_list))   # 중복없는 모든 무비코드.
-    print("리뷰가 업데이트 되는 리스트: ",new_movie_code_list)
-    return new_movie_code_list
+    exist_movie_code_list = list(set(movie_code_list + old_movie_code_list))
+    update_target_movies = []
+    for movie_code in exist_movie_code_list:
+        movie = db.session.query(Movies).filter_by(code=movie_code).first()
+        if movie.review_set:
+            continue
+        else:
+            update_target_movies.append(movie_code)
+
+    print("리뷰가 업데이트 되는 리스트: ", update_target_movies)
+    return update_target_movies
+
 
 def update_reviews(movie_code):
     movie = db.session.query(Movies).filter_by(code=movie_code).first()
