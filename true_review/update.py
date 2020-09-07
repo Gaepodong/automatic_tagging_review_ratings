@@ -2,13 +2,17 @@ from bs4 import BeautifulSoup
 import requests
 import csv
 import os
-
 from datetime import datetime
 from true_review import db
 from true_review.models import Movies, Reviews
 
 
 def get_title(code):
+    """
+    get movie title from naver movie page with movie_code
+    :param code: int movie_code
+    :return title: string movie_title
+    """
     url = 'https://movie.naver.com/movie/bi/mi/basic.nhn?code=' + str(code)
     response = requests.get(url.format(1))
     if response.status_code == 500:
@@ -19,8 +23,11 @@ def get_title(code):
 
 
 def get_image_url(code):
-    # make Url
-    # https://movie.naver.com/movie/bi/mi/photoViewPopup.nhn?movieCode=
+    """
+    get movie_image url from naver movie page with movie_code
+    :param code: int movie_code
+    :return imageUrl['src']: string movie_image url
+    """
     url = 'https://movie.naver.com/movie/bi/mi/photoViewPopup.nhn?movieCode=' + \
         str(code)
     response = requests.get(url.format(1))
@@ -31,66 +38,28 @@ def get_image_url(code):
     return imageUrl['src']
 
 
-def get_movie_code_list():
+def get_already_registered_movie_codes():
+    """
+    get movie code list from DB
+    :return movie_code_list: List already_existed_movie_codes
+    """
     movie_code_list = db.session.query(Movies.code).distinct()
     return movie_code_list
 
 
-# Movies <--- 4개 있음. 3개는 review가 비어있음. 근데 udpate_reviews 실행하면, 비어있던 review 3개가 채워짐.
-
-# update movie and reviews
-#   update_movies 무비들을 업데이트하는 함수
-#   update_reviews 생긴 무비들과 연결된 review들을 reviews에 등록하는 함수
-
-
-def update_movies():
-    path_dir = 'ranked_reviews/'
-    file_list = os.listdir(path_dir)
-    movie_code_list = [int(i.split('.')[0]) for i in file_list]
-
-    # get_movi
-    old_movie_code_list = [i[0] for i in list(get_movie_code_list())]
-
-    for movie in old_movie_code_list:
-        try:
-            movie_code_list.remove(movie)
-        except:
-            pass
-
-    print("존재하는 파일 리스트: ", movie_code_list)
-    for movie_code in movie_code_list:
-        title = get_title(movie_code)
-        imageUrl = get_image_url(movie_code)
-        movie = Movies(title, movie_code, datetime.now(), imageUrl)
-        db.session.add(movie)
-    try:
-        db.session.commit()
-    except:
-        print("중복 생략...")
-        return []
-
-    exist_movie_code_list = list(set(movie_code_list + old_movie_code_list))
-    update_target_movies = []
-    for movie_code in exist_movie_code_list:
-        movie = db.session.query(Movies).filter_by(code=movie_code).first()
-        if movie.review_set:
-            continue
-        else:
-            update_target_movies.append(movie_code)
-
-    print("리뷰가 업데이트 되는 리스트: ", update_target_movies)
-    return update_target_movies
-
-
-def update_reviews(movie_code):
-    movie = db.session.query(Movies).filter_by(code=movie_code).first()
-    path = 'ranked_reviews/' + str(movie_code) + '.csv'
+def update_reviews(movie):
+    """
+    update  movie reviews.
+    :param  movie: Movies data object
+    :return Boolean: if there is no file, return false
+    """
+    path = 'ranked_reviews/' + str(movie.code) + '.csv'
     try:
         review_file = open(path, 'r', encoding='cp949')
-        # review_file = open(path, 'r', encoding='euc-kr')
     except FileNotFoundError as e:
         print("Error: ", e)
-        return 0
+        return False
+
     rdr = csv.reader(review_file)
     try:
         for i, line in enumerate(rdr):
@@ -101,10 +70,36 @@ def update_reviews(movie_code):
             pos_or_neg = int(line[3])
             reviews = Reviews(movie.id, text_rank, content, pos_or_neg)
             movie.review_set.append(reviews)
+            db.session.add(movie)
     except:
-        print("Error movie code: {}".format(movie_code))
+        print("Error movie code: {}".format(movie.code))
+    review_file.close()
+    return True
+
+
+def update_movies_and_reviews():
+    """
+    update movies and reviews without duplication
+    """
+    path_dir = 'ranked_reviews/'
+    file_list = os.listdir(path_dir)
+    movie_code_list = [int(i.split('.')[0]) for i in file_list]
+    get_already_registered_movie_codes = [
+        i[0] for i in list(get_already_registered_movie_codes())]
+
+    for movie_code in get_already_registered_movie_codes:
+        try:
+            movie_code_list.remove(movie_code)
+        except:
+            pass
+
+    for movie_code in movie_code_list:
+        title = get_title(movie_code)
+        imageUrl = get_image_url(movie_code)
+        movie = Movies(title, movie_code, datetime.now(), imageUrl)
+        if update_reviews(movie) is False:
+            return
     try:
         db.session.commit()
     except:
-        pass
-    review_file.close()
+        return

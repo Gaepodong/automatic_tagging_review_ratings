@@ -9,7 +9,7 @@ migrate = Migrate()
 
 def create_app():
     """
-    start app
+    start true_review app
     """
     app = Flask(__name__)
 
