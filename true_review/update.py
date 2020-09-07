@@ -48,6 +48,7 @@ def update_movies():
     file_list = os.listdir(path_dir)
     movie_code_list = [int(i.split('.')[0]) for i in file_list]
 
+    # get_movi
     old_movie_code_list = [i[0] for i in list(get_movie_code_list())]
 
     for movie in old_movie_code_list:

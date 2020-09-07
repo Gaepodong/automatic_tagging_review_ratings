@@ -9,11 +9,7 @@
   <meta name="generator" content="Jekyll v4.1.1">
   <title>Your True Review</title>
 
-  <!-- //TODO: 무슨 역할인지 모르겠지만 임의로 주석처리함. -->
-  <!-- <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/album/"> -->
-
   <!-- Bootstrap core CSS -->
-  <!-- <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}"> -->
   <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.css') }}">
 
   <style>
@@ -48,7 +44,6 @@
           <div class="col-sm-4 offset-md-1 py-4">
             <h4 class="text-white">Contact</h4>
             <ul class="list-unstyled">
-              <!-- TODO: 콘텍트 주소 업데이트 -->
               <li><a href="https://github.com/l-yohai" class="text-black">yohlee</a></li>
               <li><a href="https://github.com/simian114" class="text-black">sanam</a></li>
               <li><a href="https://github.com/KyungKyuLee" class="text-black">kylee</a></li>
@@ -62,7 +57,6 @@
     <div class="navbar navbar-dark bg-ours shadow-sm">
       <div class="container d-flex justify-content-between">
         <a href="#" class="navbar-brand d-flex align-items-center">
-          <!-- //TODO: GET /favicon.ico HTTP/1.1" 404 에러 처리 위해 아래 xmlns 링크 삭제 후 진짜 아이콘 경로를 적어줄 것 -->
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor"
             stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true" class="mr-2"
             viewBox="0 0 24 24" focusable="false">
@@ -79,7 +73,6 @@
   </header>
 
   <main role="main">
-
     <section class="jumbotron text-center">
       <div class="container">
         <h1>Your True Review</h1>
@@ -89,7 +82,6 @@
 
     <div class="album py-5 bg-light">
       <div class="container">
-        <!-- TODO: 추후 템플릿화하여 DB에 영화가 추가되면 자동으로 카드가 늘어나도록 처리 요망. -->
         {% if movie_list %}
         <div class="row">
           {% for movie in movie_list %}
@@ -106,7 +98,6 @@
                 <div class="card-body">
                   <p class="card-text">{{ movie.title }}</p>
                   <div class="d-flex justify-content-between align-items-center">
-                    <!-- TODO: 갱신날짜가 수정될 때마다 뜨도록 (계속 관리되는 느낌 받게) -->
                     <small class="text-muted">{{ movie.create_date }}</small>
                   </div>
                 </div>
@@ -121,8 +112,6 @@
       </div>
     </div>
   </main>
-
-  <!-- <footer class="text-muted"> -->
   <footer class="blog-footer">
     <div class="container">
       <p style="text-align: center">

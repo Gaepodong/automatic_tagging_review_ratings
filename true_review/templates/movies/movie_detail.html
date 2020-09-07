@@ -9,9 +9,6 @@
     <meta name="generator" content="Jekyll v4.1.1">
     <title> {{ movie.title}} </title>
 
-    <!-- TODO 이건 뭔지 담에 알아보자. -->
-    <!-- <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/blog/"> -->
-
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.css') }}">
     <style>
@@ -76,14 +73,12 @@
                             {% endif %}
                             {% endfor %}
                         </ol>
-
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div
                     class="row no-gutters border rounded overflow-auto flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                    <!-- <div class="col p-4 d-flex flex-column position-static"> -->
                     <div class="col p-4 d-flex flex-column position-static">
                         <h3 class="d-inline-block mb-2 text-danger">부정 대표 리뷰</h3>
                         <ol>
@@ -103,9 +98,8 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <form class="Gripost-form my-3" action="{{ url_for('comment.create', movie_id=movie.id) }}"
+                <form class="Gripost-form my-3" action="{{ url_for('comment.get_and_analysis', movie_id=movie.id) }}"
                     method="post">
-                    <!-- form의 버튼을 누르면 action을 실행. action은 comment.create 함수를 실행 -->
                     {{ form.csrf_token }}
                     {% for field, errors in form.errors.items() %}
                     <div class="alert alert-danger" role="alert">
@@ -119,7 +113,6 @@
                     </script>
                     {% endif %}
                     {% endif %}
-
                     <div class="form-group">
                         <textarea class="col-md-12" name="content" id="content" rows="4" resize="none"
                             placeholder="댓글 등록이 가능합니다. 당신의 댓글을 추가해주세요!" display="inline"></textarea>
@@ -131,15 +124,8 @@
                 </form>
             </div>
         </div>
-
-
-        <!-- <a class="btn btn-outline-primary" href="#">Older</a>
-                    <a class="btn btn-outline-secondary disabled" href="#" tabindex="-1" aria-disabled="true">Newer</a> -->
         <div id="showHide">
-            <!-- <div class="bg-light rounded"> -->
-            <!-- <h6 class="bg-light"> 당신이 작성한 댓글</h6> -->
             <span class="bg-light"> 당신이 작성한 댓글</span>
-
             <div class="row no-gutters border rounded flex-md-row mb-4 shadow-sm overflow-auto position-relative"
                 style="height:100px">
                 {{ comment.content }}
@@ -147,7 +133,6 @@
             <div class=" row">
                 <div class="col-md-8">
                     <div class="bg-light rounded">
-                        <!-- <div class="blog-post border border-primary test"> -->
                         {% if comment == None %}
                         <p class="comment-analaysis">당신은 영화 "{{ movie.title }}"에 대해
                             null % 긍정, null % 부정의
@@ -171,7 +156,6 @@
                             {% endif %}
                             마음을
                             표하셨습니다!</p>
-                        <!-- <br> -->
                         {% endif  %}
                     </div>
                 </div>
@@ -192,11 +176,8 @@
                     </div>
                 </div>
             </div>
-
-        </div><!-- /.row -->
-
-    </div><!-- /.container -->
-
+        </div>
+    </div>
     <footer class="blog-footer">
         <p>
             <a href="http://localhost:5000/movies/list/">
