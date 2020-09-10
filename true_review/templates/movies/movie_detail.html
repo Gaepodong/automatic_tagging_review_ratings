@@ -115,7 +115,7 @@
                     {% endif %}
                     <div class="form-group">
                         <textarea class="col-md-12" name="content" id="content" rows="4" resize="none"
-                            placeholder="댓글 등록이 가능합니다. 당신의 댓글을 추가해주세요!" display="inline"></textarea>
+                            placeholder="댓글 등록이 가능합니다. 당신의 리뷰를 추가해주세요!" display="inline"></textarea>
                     </div>
                     <div class="float-right form-group">
                         <div class="col-sm-10"></div>
@@ -125,7 +125,7 @@
             </div>
         </div>
         <div id="showHide">
-            <span class="bg-light"> 당신이 작성한 댓글</span>
+            <span class="bg-light"> 당신이 작성한 리뷰</span>
             <div class="row no-gutters border rounded flex-md-row mb-4 shadow-sm overflow-auto position-relative"
                 style="height:100px">
                 {{ comment.content }}
@@ -172,7 +172,7 @@
                         {% endif %}
                         {% endfor %}
                         <br>
-                        <p class="font-italic" style="display: block;">댓글에서 추출한 평점: {{ comment.movie_rating }}점</p>
+                        <p class="font-italic" style="display: block;"> 리뷰에서 추출한 평점: {{ comment.movie_rating }}점</p>
                     </div>
                 </div>
             </div>
@@ -180,7 +180,7 @@
     </div>
     <footer class="blog-footer">
         <p>
-            <a href="http://localhost:5000/movies/list/">
+            <a href="http://13.124.8.184:5000/movies/list/">
                 <button type="button" class="btn btn-primary bg-ours">이전 페이지</button>
             </a>
             <a href="#">
