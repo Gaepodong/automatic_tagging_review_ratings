@@ -9,16 +9,19 @@ class Movies(db.Model):
     code = db.Column(db.Integer, nullable=True, unique=True)
     create_date = db.Column(db.DateTime(), nullable=False)
     image_path = db.Column(db.Text(), nullable=True)
+    score = db.Column(db.Float, nullable=True)
+    review_score = db.Column(db.Float, nullable=True)
     db.UniqueConstraint('id', 'code')
 
     reviews = db.relationship(
         "Reviews", backref=db.backref('movie', order_by=id))
 
-    def __init__(self, title, code, create_date, image_path):
+    def __init__(self, title, code, create_date, image_path, score):
         self.title = title
         self.code = code
         self.create_date = create_date
         self.image_path = image_path
+        self.score = score
 
 
 class Reviews(db.Model):

@@ -7,7 +7,7 @@ from true_review import db
 from true_review.models import Movies, Reviews
 
 
-def get_title(code):
+def get_title_and_score(code):
     """
     get movie title from naver movie page with movie_code
     :param code: int movie_code
@@ -19,7 +19,8 @@ def get_title(code):
         print("Movie code error")
     soup = BeautifulSoup(response.text, 'html.parser')
     title = soup.find('h3', class_='h_movie').find('a').text
-    return title
+    score = ''.join([i.text for i in soup.find('div', class_='score score_left').find('div', class_='star_score').find_all('em')])
+    return title, float(score)
 
 
 def get_image_url(code):
@@ -65,13 +66,17 @@ def update_reviews(movie):
         for i, line in enumerate(rdr):
             if i == 0:
                 continue
+            if i == 1:
+                # movie.review_score = line[4]
+                movie.review_score = 8.94
             text_rank = float(line[1])
             content = line[2]
             pos_or_neg = int(line[3])
             reviews = Reviews(movie.id, text_rank, content, pos_or_neg)
             movie.review_set.append(reviews)
             db.session.add(movie)
-    except:
+    except Exception as e:
+        print("Error: ", e)
         print("Error movie code: {}".format(movie.code))
     review_file.close()
     return True
@@ -84,19 +89,19 @@ def update_movies_and_reviews():
     path_dir = 'ranked_reviews/'
     file_list = os.listdir(path_dir)
     movie_code_list = [int(i.split('.')[0]) for i in file_list]
-    get_already_registered_movie_codes = [
+    get_already_registered_movie_code = [
         i[0] for i in list(get_already_registered_movie_codes())]
 
-    for movie_code in get_already_registered_movie_codes:
+    for movie_code in get_already_registered_movie_code:
         try:
             movie_code_list.remove(movie_code)
         except:
             pass
 
     for movie_code in movie_code_list:
-        title = get_title(movie_code)
+        title, score = get_title_and_score(movie_code)
         imageUrl = get_image_url(movie_code)
-        movie = Movies(title, movie_code, datetime.now(), imageUrl)
+        movie = Movies(title, movie_code, datetime.now(), imageUrl, score)
         if update_reviews(movie) is False:
             return
     try:
